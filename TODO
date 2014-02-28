@@ -1,0 +1,9 @@
+- Builder class.
+- Config using yml.
+- Check behat tests.
+- Helpers.
+- CopyStrategy using git in order to save bandwith and get a great performance.
+- Documentation.
+- Phar.
+- Unit tests.
+- Bundle?

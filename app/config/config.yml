@@ -1,0 +1,13 @@
+zone1:
+    local_path: /tmp/deployer_test/local
+    remote_path: /tmp/deployer_test/remote
+    env: dev
+    number_of_deploys_to_left_on_clean: 5
+    custom_config:
+        custom1: abc
+        custom2: 123
+    helper_config:
+        helper1: abc
+        helper2: 123
+    sudo: false
+

@@ -1,0 +1,40 @@
+{
+    "name": "jordillonch/deployer",
+    "description": "A PHP deployer for any kind of project.",
+    "keywords": ["deploy", "deployer", "component", "symfony2"],
+    "homepage": "https://github.com/jordillonch/deployer",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jordi Llonch",
+            "email": "llonch.jordi@gmail.com"
+        }
+    ],
+    "require": {
+        "php":                          ">=5.4.0",
+        "psr/log":                      "~1.0",
+        "symfony/process":              "2.4.*",
+        "symfony/event-dispatcher":     "2.4.*",
+        "symfony/yaml":                 "2.4.*",
+        "symfony/finder":               "2.3.*",
+        "symfony/dependency-injection": "2.4.*",
+        "symfony/config":               "2.4.*",
+        "symfony/console":              "2.4.*"
+    },
+    "require-dev":{
+        "fabpot/php-cs-fixer":          "dev-master",
+        "mockery/mockery":              "dev-master",
+        "phing/phing":                  "dev-master",
+        "phploc/phploc":                "2.0.*",
+        "phpunit/phpunit":              "3.7.*",
+        "monolog/monolog":              "1.7.*",
+        "squizlabs/php_codesniffer":    "1.5.0RC3",
+        "raulfraile/ladybug-bundle":    "v1.0.2",
+        "behat/behat":                  "2.4.*@stable"
+    },
+     "autoload": {
+        "psr-0": { "": "src" }
+    },
+    "minimum-stability": "dev"
+}

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Deployer Component" default="help" basedir=".">
+
+    <target name="composer-install" description="Run composer install to load all dependencies">
+        <composer composer="/usr/local/bin/composer" command="install">
+            <arg value="-o"/>
+            <arg value="--prefer-dist"/>
+        </composer>
+    </target>
+
+    <target name="php-lint" description="Check PHP syntax errors">
+        <phplint haltonfailure="true" deprecatedAsError="true">
+            <fileset dir="${project.basedir}">
+                <include name="**/*.php"/>
+                <exclude name="vendor/**/*.*"/>
+            </fileset>
+        </phplint>
+    </target>
+
+    <target name="phpunit" description="Run all tests">
+        <exec
+            command="./bin/phpunit"
+            passthru="true"/>
+    </target>
+
+    <target name="phpunit-coverage" description="Run all tests &amp; Generate coverage reports">
+        <delete dir="build/coverage"/>
+        <delete dir="build/logs/phpunit"/>
+        <exec
+            command="./bin/vendor/phpunit -c phpunit-coverage.xml"
+            passthru="true"/>
+    </target>
+
+    <target name="phpcs" description="Run PHPCodesniffer to check code conventions">
+        <delete dir="build/logs/checkstyle"/>
+        <mkdir dir="build/logs/checkstyle"/>
+        <exec
+            command="./bin/vendor/phpcs --standard=phpcs-ruleset.xml -p --ignore=vendor,build,app,bin,web ${project.basedir}
+                --report-full=/build/logs/checkstyle/full.txt
+                --report-source=/build/logs/checkstyle/source.txt
+                --report-gitblame=/build/logs/checkstyle/gitblame.txt
+                --report-checkstyle=/build/logs/checkstyle/checkstyle.xml
+                --report=summary"
+            passthru="true"/>
+    </target>
+
+    <target name="phpcs-fix" description="Run PHP-CS-Fixer">
+        <exec
+            command="./bin/vendor/php-cs-fixer fix ${project.basedir}/src"
+            passthru="true"/>
+    </target>
+
+    <target name="phpcs-fix-dry" description="Run PHP-CS-Fixer leaving files unchanged and display a summary of proposed fixes">
+        <exec
+            command="./bin/vendor/php-cs-fixer --dry-run --verbose --diff fix ${project.basedir}/src"
+            passthru="true"/>
+    </target>
+
+    <target name="phploc" description="Run PHPLoc to have some statistics">
+        <exec
+            command="./bin/vendor/phploc --exclude=vendor --exclude=build ${project.basedir} --log-xml build/logs/phploc.xml"
+            passthru="true"/>
+    </target>
+
+    <target name="help" description="Help">
+        <exec
+            command="./bin/vendor/phing -l"
+            passthru="true"/>
+    </target>
+
+</project>

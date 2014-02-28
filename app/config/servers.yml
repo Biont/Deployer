@@ -1,0 +1,9 @@
+zone1:
+    url1:
+        proxy: cli
+        host: server1
+        port: 22
+        username: jllonch
+        public_key_file: ~/.ssh/id_rsa.pub
+        private_key_file: ~/.ssh/id_rsa
+        sudo: false

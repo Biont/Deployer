@@ -1,0 +1,67 @@
+#imports:
+#    - { resource: "../../../../global/config/config.yml" }
+#parameters:
+services:
+    deploy_config:
+        class: JordiLlonch\Component\Deployer\Deploy\Entity\DeployConfig
+    logger:
+        class: \Monolog\Logger
+    ssh_broker:
+        class: \JordiLlonch\Component\Deployer\Deploy\Ssh\Broker
+    process:
+        class: \JordiLlonch\Component\Deployer\Deploy\Process\Process
+    vcs_config:
+        class: \JordiLlonch\Component\Deployer\Deploy\Entity\VcsConfig
+    vcs:
+        class: \JordiLlonch\Component\Deployer\Deploy\Vcs\Git
+        arguments: ["@vcs_config"]
+    ssh_config:
+        class: \JordiLlonch\Component\Deployer\Deploy\Entity\SshConfig
+        # fill with config
+    copy_strategy:
+        class: \JordiLlonch\Component\Deployer\Deploy\CopyStrategy\Rsync
+        calls:
+            - [addServer, ["@ssh_config"]]
+    helper_set:
+        class: \JordiLlonch\Component\Deployer\Deploy\Helper\HelperSet
+    event_dispatcher:
+        class: \Symfony\Component\EventDispatcher\EventDispatcher
+    deploy_repository:
+        class: \JordiLlonch\Component\Deployer\Deploy\Repository\YamlDeployRepository
+        arguments: ["%deploy_data_path%"]
+    deploy:
+        class: \JordiLlonch\Component\Deployer\Deploy\Basic
+        arguments:
+            - "@event_dispatcher"
+            - "@process"
+            - "@deploy_config"
+            - "@copy_strategy"
+            - "@ssh_broker"
+            - "@vcs"
+            - "@deploy_repository"
+        calls:
+            - [setLogger, ["@logger"]]
+            - [setHelperSet, ["@helper_set"]]
+
+
+    command.initialize:
+        class: \JordiLlonch\Component\Deployer\Command\InitializeCommand
+        tags: [{ name: deployer.command }]
+    command.download:
+        class: \JordiLlonch\Component\Deployer\Command\DownloadCommand
+        tags: [{ name: deployer.command }]
+    command.code2production:
+        class: \JordiLlonch\Component\Deployer\Command\Code2ProductionCommand
+        tags: [{ name: deployer.command }]
+    command.rollback:
+        class: \JordiLlonch\Component\Deployer\Command\RollbackCommand
+        tags: [{ name: deployer.command }]
+    command.status:
+        class: \JordiLlonch\Component\Deployer\Command\StatusCommand
+        tags: [{ name: deployer.command }]
+    command.configure:
+        class: \JordiLlonch\Component\Deployer\Command\ConfigureCommand
+        tags: [{ name: deployer.command }]
+    command.clean:
+        class: \JordiLlonch\Component\Deployer\Command\CleanCommand
+        tags: [{ name: deployer.command }]

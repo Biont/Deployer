@@ -1,0 +1,18 @@
+<?php
+
+namespace JordiLlonch\Component\Deployer;
+
+use JordiLlonch\Component\Deployer\Zone\Manager;
+use Psr\Log\LoggerInterface;
+
+interface EngineInterface {
+    public function __construct(
+        Manager $zoneManager,
+        LoggerInterface $logger
+    );
+
+    public function initialize();
+    public function downloadCode();
+    public function code2Production();
+    public function rollback();
+}
